@@ -2,7 +2,6 @@ import SheetsDataProcessor from './sheets-processor.js';
 import logger from '../logs/logger.js';
 import gauth from './gauth.js';
 import { constants } from '../constants.js';
-import { res } from 'pino-std-serializers';
 
 /** responsibles ID */
 const { mainID,
