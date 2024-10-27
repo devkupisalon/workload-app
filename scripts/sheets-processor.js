@@ -1,4 +1,5 @@
 import gauth from './gauth.js';
+import logger from '../logs/logger.js';
 
 class SheetsDataProcessor {
     constructor() {
