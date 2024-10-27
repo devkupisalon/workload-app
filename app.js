@@ -6,7 +6,7 @@ import { constants, __dirname } from './constants.js';
 import { getData, updateTime, uploadFile, get_responsible } from './scripts/workload-web-app.js';
 import { verifyTelegramWebAppData } from './scripts/validate.js';
 
-const { HOME } = constants;
+const { HOME, bot_token } = constants;
 const app = express();
 
 const stylesPath = path.join(__dirname, 'styles');
@@ -26,7 +26,7 @@ app.use((error, req, res, next) => {
 app.get("/validate-init", async (req, res) => {
     try {
         const decodedData = req.url.replace('/validate-init?', '');
-        const hash = verifyTelegramWebAppData(decodedData, BOT_TOKEN);
+        const hash = verifyTelegramWebAppData(decodedData, bot_token);
 
         if (hash) {
             logger.info(`Validation successful: ${decodedData}`);
