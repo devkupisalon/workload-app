@@ -12,6 +12,8 @@ const fetchData = async () => {
     }
 };
 
+fetchData();
+
 const { user: { username, id } } = tg.initDataUnsafe;
 
 class PageController {
