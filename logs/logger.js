@@ -1,7 +1,7 @@
 import pino from 'pino';
 import fs from 'fs';
 import path from 'path';
-import { __dirname } from '../constants';
+import { __dirname } from '../constants.js';
 
 const customTimeFormat = () => `,"time":"${new Date().toISOString()}"`;
 
