@@ -6,3 +6,4 @@ fs
 url
 node-telegram-bot
 pino
+pino-pretty
