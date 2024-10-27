@@ -3,7 +3,8 @@ import path from 'path';
 
 import logger from './logs/logger.js';
 import { constants, __dirname } from './constants.js';
-import { getData, updateTime, uploadFile } from './scripts/workload-web-app.js'
+import { getData, updateTime, uploadFile, get_responsible } from './scripts/workload-web-app.js';
+import { verifyTelegramWebAppData } from './scripts/validate.js';
 
 const { HOME } = constants;
 const app = express();
@@ -22,6 +23,36 @@ app.use((error, req, res, next) => {
     res.status(500).send(error);
 });
 
+app.get("/validate-init", async (req, res) => {
+    try {
+        const decodedData = req.url.replace('/validate-init?', '');
+        const hash = verifyTelegramWebAppData(decodedData, BOT_TOKEN);
+
+        if (hash) {
+            logger.info(`Validation successful: ${decodedData}`);
+            return res.json(decodedData);
+        } else {
+            logger.warn(`Validation failed: ${decodedData}`);
+            return res.status(401).json({});
+        }
+    } catch (error) {
+        logger.error(`An error occurred in validate: ${error.message}`);
+        return res.status(500).json({ error: error.toString() });
+    }
+});
+
+app.get('/get_responsible', async (req,res) => {
+    try {
+        const responsible = await get_responsible(req.query.user_id);
+
+        return res.json({ responsible });
+    } catch (error) {
+        logger.error(`An error occurred in get_get_responsible: ${error.message}`);
+        return res.status(500).json({ error: error.toString() });
+    }
+
+});
+
 app.get('/upload_file', async (req, res) => {
     try {
         logger.info(`Data successfully received from mini-app: ${req.query}`);
@@ -29,7 +60,7 @@ app.get('/upload_file', async (req, res) => {
 
         return res.json({ success });
     } catch (error) {
-        logger.error(`An error occurred in save_data: ${error.message}`);
+        logger.error(`An error occurred in upload_file: ${error.message}`);
         return res.status(500).json({ error: error.toString() });
     }
 });

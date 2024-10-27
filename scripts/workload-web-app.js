@@ -34,6 +34,7 @@ class WorkWebApp {
         this.colStatus = "H";
         this.data = null;
         this.dataSheetName = 'полные данные';
+        this.config = 'config';
         this.workersSheetName = 'Сотрудники производств'
         this.mainId = mainID;
         this.withAutoSheetName = 'данные с авто';
@@ -51,6 +52,12 @@ class WorkWebApp {
             Малярка: malyrka,
             Электрик: electric
         };
+    }
+
+    async get_responsible(user_id) {
+        return await this.processor.getDataFromSheets(this.id, this.config)
+            .slice(1)
+            .find(r => user_id.includes(r[1]))[0];
     }
 
     /**
@@ -220,5 +227,6 @@ const work = new WorkWebApp();
 const getData = async () => { return await work.getData() };
 const updateTime = async (data, finish) => { await work.update(data) };
 const uploadFile = async (data) => { await work.batchUploadFiles(data) };
+const get_responsible = async (user_id) => { return await work.get_responsible(user_id) };
 
-export { getData, updateTime, uploadFile };
+export { getData, updateTime, uploadFile, get_responsible };

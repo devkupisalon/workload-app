@@ -1,3 +1,19 @@
+const tg = window.Telegram.WebApp;
+
+tg.enableClosingConfirmation();
+tg.ready();
+
+const fetchData = async () => {
+    try {
+        const response = await fetch(`/validate-init?${tg.initData}`);
+        const data = await response.json();
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+const { user: { username, id } } = tg.initDataUnsafe;
+
 class PageController {
     constructor() {
         // Инициализация текущего шага
@@ -5,7 +21,7 @@ class PageController {
         this.dataObj = null;
         this.timerInterval = null; // Идентификатор интервала обновления времени
         this.elapsedTime = 0; // Прошедшее время с момента начала работы
-        this.responsible = document.querySelector('meta[name="responsible"]').getAttribute('content');
+        this.responsible = this.get_responsible(id);
         this.start = "Начать работу";
         this.returnText = "Вы уверены, что хотите завершить работу?";
         this.mnClicked = false;
@@ -142,6 +158,13 @@ class PageController {
         window.addEventListener('load', () => {
             this.loadDataFromStorage();
         });
+    }
+
+    async get_responsible(user_id) {
+        const response = await fetch(`/get_responsible?user_id=${user_id}`);
+        const { responsible } = await response.json();
+        console.log(`Responsible for user with id ${user_id} is ${responsible}`);
+        return responsible;
     }
 
     /** Обновляет текущий шаг на основе переданного номера заказа и отображает соответствующие элементы */
