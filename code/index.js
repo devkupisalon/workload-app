@@ -3,17 +3,6 @@ const tg = window.Telegram.WebApp;
 tg.enableClosingConfirmation();
 tg.ready();
 
-const fetchData = async () => {
-    try {
-        const response = await fetch(`/validate-init?${tg.initData}`);
-        const data = await response.json();
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
-
-fetchData();
-
 const { user: { username, id } } = tg.initDataUnsafe;
 
 class PageController {
@@ -615,3 +604,25 @@ const pageController = new PageController();
 
 /** Запуск обновления данных каждую минуту */
 pageController.startDataRefreshInterval();
+
+const fetchData = async () => {
+    try {
+        const response = await fetch(`/validate-init?${tg.initData}`);
+        const { success } = await response.json();
+        if (success) {
+            console.log(success);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+async function preload() {
+    const container = document.querySelector('.container');
+    await fetchData();
+    const preloader = document.querySelector('.c-car-spinner');
+    preloader.style.display = "none";
+    container.style.display = "flex";
+}
+
+preload();

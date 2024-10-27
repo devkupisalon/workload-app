@@ -30,7 +30,7 @@ app.get("/validate-init", async (req, res) => {
 
         if (hash) {
             logger.info(`Validation successful`);
-            return res.json(decodedData);
+            return res.json({ success: 'validation successfull' });
         } else {
             logger.warn(`Validation failed`);
             return res.status(401).json({});
@@ -41,7 +41,7 @@ app.get("/validate-init", async (req, res) => {
     }
 });
 
-app.get('/get_responsible', async (req,res) => {
+app.get('/get_responsible', async (req, res) => {
     try {
         const responsible = await get_responsible(req.query.user_id);
 
