@@ -62,7 +62,7 @@ class WorkWebApp {
      */
     async get_responsible(user_id) {
         const values = await this.processor.get_data(this.id, this.config);
-        const responsible = values.find(r => r[1].includes(user_id) || r[1] === user_id)[0];
+        const responsible = values.find(r => r[1] !== undefined && (r[1].includes(user_id) || r[1] === user_id))[0];
         return responsible;
     }
 
