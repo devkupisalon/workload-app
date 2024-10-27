@@ -57,9 +57,6 @@ class WorkWebApp {
     async get_responsible(user_id) {
         const values = await this.processor.get_data(this.id, this.config);
         const responsible = values.find(r => r[1].includes(user_id) || r[1] === user_id)[0];
-    
-        console.log(responsible);
-        logger.info(responsible);
         return responsible;
     }
 
@@ -68,8 +65,8 @@ class WorkWebApp {
      * Возвращает объект с данными, группированными по ответственным лицам.
      */
     async getOrdersWithCar() {
-        this.withCarObj = await this.processor.get_data(this.id, this.withAutoSheetName)
-            .slice(1)
+        const values = await this.processor.get_data(this.id, this.withAutoSheetName);
+        this.withCarObj = values.slice(1)
             .reduce((acc, [, time, orderNumber, car, , responsible, , , , folder, anketaLink]) => {
                 const responsibles = responsible.split(',');
                 responsibles.forEach(res => {
@@ -88,8 +85,8 @@ class WorkWebApp {
      */
     async getWorkers() {
         // Получаем данные исполнителей и ответственных лиц из листа
-        this.workersObj = await this.processor.get_data(this.mainId, this.workersSheetName)
-            .slice(1)
+        const values = await this.processor.get_data(this.mainId, this.workersSheetName);
+        this.workersObj = values.slice(1)
             .reduce((acc, [worker, responsible]) => {
                 // Создаем массив для каждого ответственного лица, если он еще не существует
                 if (!acc[responsible]) acc[responsible] = [];
@@ -106,8 +103,8 @@ class WorkWebApp {
     async getData() {
         await this.getOrdersWithCar();
         await this.getWorkers();
-        let obj = await this.processor.get_data(this.id, this.dataSheetName)
-            .slice(1)
+        const values = await this.processor.get_data(this.id, this.dataSheetName);
+        let obj = values.slice(1)
             .reduce((acc, [orderId, field, responsible, worker, status, , , , , sequentialInResponsible, workHours, spareHours, sequentialInOrder]) => {
                 if (!acc.responsibles) acc.responsibles = new Set();
                 if (!acc[orderId]) acc[orderId] = {};
