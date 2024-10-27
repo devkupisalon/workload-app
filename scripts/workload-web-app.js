@@ -54,6 +54,12 @@ class WorkWebApp {
         };
     }
 
+    /**
+     * Асинхронно находит ответственного пользователя на основе идентификатора пользователя.
+     * 
+     * @param {string} user_id - Идентификатор пользователя.
+     * @returns {string} - Имя ответственного пользователя.
+     */
     async get_responsible(user_id) {
         const values = await this.processor.get_data(this.id, this.config);
         const responsible = values.find(r => r[1].includes(user_id) || r[1] === user_id)[0];
@@ -77,7 +83,6 @@ class WorkWebApp {
                 });
                 return acc;
             }, {});
-        logger.info(JSON.stringify(this.withCarObj, null, 2));
     }
 
     /**
