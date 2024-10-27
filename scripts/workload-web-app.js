@@ -2,6 +2,7 @@ import SheetsDataProcessor from './sheets-processor.js';
 import logger from '../logs/logger.js';
 import gauth from './gauth.js';
 import { constants } from '../constants.js';
+import { res } from 'pino-std-serializers';
 
 /** responsibles ID */
 const { mainID,
@@ -55,10 +56,9 @@ class WorkWebApp {
     }
 
     async get_responsible(user_id) {
-        const responsible = await this.processor.get_data(this.id, this.config)[0];
-            // .slice(1);
+        const responsible = await this.processor.get_data(this.id, this.config)
+            .find(r => r[1].includes(user_id))[0];
             logger.info(responsible);
-            // .find(r => user_id.includes(r[1]))[0];
         return responsible;
     }
 
