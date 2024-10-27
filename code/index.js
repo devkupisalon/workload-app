@@ -157,8 +157,8 @@ class PageController {
         });
 
         // обработчик события загрузки страницы для вызова метода loadDataFromStorage
-        window.addEventListener('load', () => {
-            this.responsible = this.get_responsible(id);
+        window.addEventListener('load', async () => {
+            this.responsible = await this.get_responsible(id);
             this.loadDataFromStorage();
         });
     }
