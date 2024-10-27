@@ -61,5 +61,5 @@ app.listen('8001', (err) => {
     if (err) {
         logger.error(err.message);
     }
-    logger.info('Server is running on port 8000');
+    logger.info('Server is running on port 8001');
 });
