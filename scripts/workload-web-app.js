@@ -56,7 +56,14 @@ class WorkWebApp {
 
     async get_responsible(user_id) {
         const values = await this.processor.get_data(this.id, this.config);
-        const responsible = values.find(r => r[1]?.includes(user_id));
+        const responsible = values.find(r => {
+            if (Array.isArray(r[1])) {
+                return false; 
+            } else {
+                return Array.isArray(r) && r[1].includes(user_id);
+            }
+        });
+    
         console.log(responsible);
         logger.info(responsible);
         return responsible;
