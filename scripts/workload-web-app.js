@@ -148,7 +148,7 @@ this.WorkWebApp = class WorkWebApp {
      * @param {string} data.workType - Тип работы.
      * @param {boolean} finish - Флаг, указывающий, завершена ли работа.
      */
-    async update(data_obj, finish) {
+    async update(data_obj) {
         const { data, finish } = data_obj;
         const { time, responsible, orderNumber, workType } = JSON.parse(data);
         const index = await this.findIndex({ orderNumber, workType, values: await this.processor.getSheetData(this.idObj[responsible], this.workSheetName).slice(1) });
@@ -218,7 +218,7 @@ this.WorkWebApp = class WorkWebApp {
 
 const work = new WorkWebApp();
 const getData = async () => { return await work.getData() };
-const updateTime = async (data, finish) => { await work.update(data, finish) };
+const updateTime = async (data, finish) => { await work.update(data) };
 const uploadFile = async (data) => { await work.batchUploadFiles(data) };
 
 export { getData, updateTime, uploadFile };
