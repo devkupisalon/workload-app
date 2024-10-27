@@ -250,12 +250,12 @@ class PageController {
     saveDataToStorage() {
         const pageData = {
             responsible: this.responsible,
-            selectedOrder: this.so.textContent,
+            selectedOrder: this.so.textContent || '',
             dataObj: this.dataObj,
             currentStep: this.currentStep,
             elapsedTime: this.elapsedTime,
             timerInterval: this.timerInterval,
-            selectedWork: this.sw.textContent
+            selectedWork: this.sw.textContent || ''
         };
 
         console.log(`Data saved to storage...`);
