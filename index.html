@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="selection" id="order-selection">
+            <span class="arrow" id="selected-production-arrow"
+                onclick="pageController.goToPreviousStep()">&#11013;</span>
+            <div id="selected-production"></div>
+            <div id="selected-order">
+                <a id="link-element"></a>
+            </div>
+        </div>
+        <div class="work">
+            <div id="selected-work"></div>
+        </div>
+        <table id="order-table">
+            <!-- Строки с данными заказов будут добавлены динамически -->
+        </table>
+        <table id="additional-table">
+            <!-- Строки с данными работ будут добавлены динамически -->
+        </table>
+        <div id="work-block">
+            <div class="control play">
+                <span class="left"></span>
+                <span class="right"></span>
+            </div>
+            <button id="start-button" onclick="pageController.startPauseWork()">Начать работу</button>
+            <button id="finish-button" onclick="pageController.finishWork()">Завершить работу</button>
+        </div>
+        <!-- Модальное окно -->
+        <div id="modal" class="modal">
+
+            <div class="modal-content">
+                <h3>Данные успешно записаны</h3>
+                <span class="circle-checkmark">✓</span>
+                <!-- <p>Текст сообщения об успешной записи данных.</p> -->
+            </div>
+        </div>
+
+        <!-- Модальное окно для вопроса о загрузке фото -->
+        <div id="modal-photo" class="modal">
+            <div class="modal-upload">
+                <span class="close" onclick="pageController.closeModal()">&times;</span> <!-- Крестик для закрытия -->
+                <h3>Сначала загрузите фото ДО</h3>
+                <form id="upload-form">
+                    <input type="file" id="uploadfile" accept="image/*" multiple>
+                    <button type="submit">Загрузить</button>
+                </form>
+                <div id="progress"></div>
+                <div id="status"></div>
+            </div>
+        </div>
+
+        <!-- Модальное окно -->
+        <div id="modal-buttons" class="modal">
+            <div class="modal-buutons-content">
+                <h3>Вы уверены, что хотите завершить работу?</h3>
+                <div class="modal-buttons">
+                    <button id="modal-yes" class="modal-button">Да</button>
+                    <button id="modal-no" class="modal-button">Нет</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/scripts/index.js"></script>
+</body>
+
+</html>

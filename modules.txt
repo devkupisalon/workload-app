@@ -1,0 +1,8 @@
+dotenv
+path
+googleapis
+express
+fs
+url
+node-telegram-bot
+pino
