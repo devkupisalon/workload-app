@@ -1,7 +1,7 @@
 import SheetsDataProcessor from './sheets-processor.js';
 import logger from '../logs/logger.js';
 import gauth from './gauth.js';
-import { constants } from './constants.js';
+import { constants } from '../constants.js';
 
 /** responsibles ID */
 const { mainID,
