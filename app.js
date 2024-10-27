@@ -57,7 +57,7 @@ app.get('/getdata', async (req, res) => {
     }
 });
 
-app.listen('8001', (err) => {
+app.listen('8000', (err) => {
     if (err) {
         logger.error(err.message);
     }
