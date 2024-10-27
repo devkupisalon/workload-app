@@ -55,7 +55,7 @@ class WorkWebApp {
     }
 
     async get_responsible(user_id) {
-        return await this.processor.getDataFromSheets(this.id, this.config)
+        return await this.processor.get_data(this.id, this.config)
             .slice(1)
             .find(r => user_id.includes(r[1]))[0];
     }
@@ -65,7 +65,7 @@ class WorkWebApp {
      * Возвращает объект с данными, группированными по ответственным лицам.
      */
     async getOrdersWithCar() {
-        this.withCarObj = await this.processor.getDataFromSheets(this.id, this.withAutoSheetName)
+        this.withCarObj = await this.processor.get_data(this.id, this.withAutoSheetName)
             .slice(1)
             .reduce((acc, [, time, orderNumber, car, , responsible, , , , folder, anketaLink]) => {
                 const responsibles = responsible.split(',');
@@ -85,7 +85,7 @@ class WorkWebApp {
      */
     async getWorkers() {
         // Получаем данные исполнителей и ответственных лиц из листа
-        this.workersObj = await this.processor.getDataFromSheets(this.mainId, this.workersSheetName)
+        this.workersObj = await this.processor.get_data(this.mainId, this.workersSheetName)
             .slice(1)
             .reduce((acc, [worker, responsible]) => {
                 // Создаем массив для каждого ответственного лица, если он еще не существует
@@ -103,7 +103,7 @@ class WorkWebApp {
     async getData() {
         await this.getOrdersWithCar();
         await this.getWorkers();
-        let obj = await this.processor.getDataFromSheets(this.id, this.dataSheetName)
+        let obj = await this.processor.get_data(this.id, this.dataSheetName)
             .slice(1)
             .reduce((acc, [orderId, field, responsible, worker, status, , , , , sequentialInResponsible, workHours, spareHours, sequentialInOrder]) => {
                 if (!acc.responsibles) acc.responsibles = new Set();
@@ -158,7 +158,7 @@ class WorkWebApp {
     async update(data_obj) {
         const { data, finish } = data_obj;
         const { time, responsible, orderNumber, workType } = JSON.parse(data);
-        const index = await this.findIndex({ orderNumber, workType, values: await this.processor.getSheetData(this.idObj[responsible], this.workSheetName).slice(1) });
+        const index = this.findIndex({ orderNumber, workType, values: await this.processor.getSheetData(this.idObj[responsible], this.workSheetName).slice(1) });
         await this.processor.batchSetData(`${this.workSheetName}!${this.col}${index + 2}`, [[time]], this.idObj[responsible]);
         if (finish) await this.processor.batchSetData(`${this.workSheetName}!${this.colStatus}${index + 2}`, [["Закончено"]], this.idObj[responsible]);
     }
