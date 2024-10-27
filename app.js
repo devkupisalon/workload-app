@@ -29,10 +29,10 @@ app.get("/validate-init", async (req, res) => {
         const hash = verifyTelegramWebAppData(decodedData, bot_token);
 
         if (hash) {
-            logger.info(`Validation successful: ${decodedData}`);
+            logger.info(`Validation successful`);
             return res.json(decodedData);
         } else {
-            logger.warn(`Validation failed: ${decodedData}`);
+            logger.warn(`Validation failed`);
             return res.status(401).json({});
         }
     } catch (error) {

@@ -407,6 +407,7 @@ class PageController {
 
     /** Создает таблицу на основе данных и добавляет ее в указанный элемент таблицы */
     createTable(data, tableElement) {
+        console.log(data);
         if (data.length === 0) {
             tableElement.innerHTML = ""; // Очистка таблицы
             tableElement.style.display = "none"; // Скрытие таблицы
