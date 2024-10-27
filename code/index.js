@@ -23,7 +23,7 @@ class PageController {
         this.dataObj = null;
         this.timerInterval = null; // Идентификатор интервала обновления времени
         this.elapsedTime = 0; // Прошедшее время с момента начала работы
-        this.responsible = this.get_responsible(id);
+        this.responsible = null;
         this.start = "Начать работу";
         this.returnText = "Вы уверены, что хотите завершить работу?";
         this.mnClicked = false;
@@ -158,6 +158,7 @@ class PageController {
 
         // обработчик события загрузки страницы для вызова метода loadDataFromStorage
         window.addEventListener('load', () => {
+            this.responsible = this.get_responsible(id);
             this.loadDataFromStorage();
         });
     }
