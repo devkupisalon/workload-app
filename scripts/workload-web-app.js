@@ -20,7 +20,7 @@ const { mainID,
 /**
  * Класс WorkWebApp представляет веб-приложение для работы с данными о производствах и заказах.
  */
-this.WorkWebApp = class WorkWebApp {
+class WorkWebApp {
     /**
      * Создает экземпляр класса WorkWebApp.
      */
