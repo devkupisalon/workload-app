@@ -147,10 +147,27 @@ class PageController {
 
         // обработчик события загрузки страницы для вызова метода loadDataFromStorage
         window.addEventListener('load', async () => {
+            const container = document.querySelector('.container');
+            const preloader = document.querySelector('.c-car-spinner');
+            await this.fetchData();
             this.responsible = await this.get_responsible(id);
             this.loadDataFromStorage();
+            preloader.style.display = "none";
+            container.style.display = "flex";
         });
     }
+
+    async fetchData() {
+        try {
+            const response = await fetch(`/validate-init?${tg.initData}`);
+            const { success } = await response.json();
+            if (success) {
+                console.log(success);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     async get_responsible(user_id) {
         const response = await fetch(`/get_responsible?user_id=${user_id}`);
@@ -396,7 +413,6 @@ class PageController {
 
     /** Создает таблицу на основе данных и добавляет ее в указанный элемент таблицы */
     createTable(data, tableElement) {
-        console.log(data);
         if (data.length === 0) {
             tableElement.innerHTML = ""; // Очистка таблицы
             tableElement.style.display = "none"; // Скрытие таблицы
@@ -605,24 +621,11 @@ const pageController = new PageController();
 /** Запуск обновления данных каждую минуту */
 pageController.startDataRefreshInterval();
 
-const fetchData = async () => {
-    try {
-        const response = await fetch(`/validate-init?${tg.initData}`);
-        const { success } = await response.json();
-        if (success) {
-            console.log(success);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
+// async function preload() {
+//     const container = document.querySelector('.container');
+//     const preloader = document.querySelector('.c-car-spinner');
+//     preloader.style.display = "none";
+//     container.style.display = "flex";
+// }
 
-async function preload() {
-    const container = document.querySelector('.container');
-    await fetchData();
-    const preloader = document.querySelector('.c-car-spinner');
-    preloader.style.display = "none";
-    container.style.display = "flex";
-}
-
-preload();
+// preload();
