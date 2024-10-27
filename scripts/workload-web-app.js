@@ -56,7 +56,7 @@ class WorkWebApp {
 
     async get_responsible(user_id) {
         const responsible = await Object.values(this.processor.get_data(this.id, this.config))
-            .find(r => r[1].includes(user_id))[0];
+            .find(r => r[1].includes(user_id));
             logger.info(responsible);
         return responsible;
     }
