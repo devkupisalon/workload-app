@@ -5,9 +5,6 @@ class SheetsDataProcessor {
         this.auth = gauth()
         this.sheetsService = this.auth.sheets.spreadsheets;
         this.driveService = this.auth.drive;
-        this.mimeType = "application/vnd.google-apps.spreadsheet";
-        this.id = '';
-        this.sheetId = '';
     }
 
     async get_data(spreadsheetId, range) {
@@ -16,6 +13,7 @@ class SheetsDataProcessor {
                 spreadsheetId,
                 range,
             });
+            logger.info(values);
             return values
         } catch (error) {
             logger.error(error.message);
