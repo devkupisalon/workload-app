@@ -57,10 +57,10 @@ class WorkWebApp {
     async get_responsible(user_id) {
         const values = await this.processor.get_data(this.id, this.config);
         const responsible = values.find(r => {
-            if (Array.isArray(r[1])) {
+            if (r[1] == undefined) {
                 return false; 
             } else {
-                return Array.isArray(r) && r[1].includes(user_id);
+                return r[1]?.includes(user_id);
             }
         });
     
