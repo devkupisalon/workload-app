@@ -14,8 +14,7 @@ class SheetsDataProcessor {
                 spreadsheetId,
                 range,
             });
-            logger.info(values);
-            return values
+            return Object.values(values);
         } catch (error) {
             logger.error(error.message);
         }
